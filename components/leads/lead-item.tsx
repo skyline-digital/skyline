@@ -43,6 +43,8 @@ import {
   PaginationItem,
 } from "@/components/ui/pagination";
 import { Separator } from "@/components/ui/separator";
+import LocalDate from "../local-date";
+import { deleteLead } from "@/utils/dal";
 
 export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
   return (
@@ -62,7 +64,7 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
           </CardTitle>
           <CardDescription>
             Created:{" "}
-            {getFormattedDate(lead.created_at)}
+            <LocalDate timestamp={lead.created_at} />
           </CardDescription>
         </div>
         <div className="ml-auto flex items-center gap-1">
@@ -86,7 +88,7 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
               </DropdownMenuContent>
             </DropdownMenu>
             <AlertDialogContent>
-              <form>
+              <form action={() => deleteLead(lead.id)}>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                   <AlertDialogDescription>
@@ -96,7 +98,7 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button variant="destructive" asChild>
+                  <Button variant="destructive" type="submit" asChild>
                     <AlertDialogAction>Delete</AlertDialogAction>
                   </Button>
                 </AlertDialogFooter>

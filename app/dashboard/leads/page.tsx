@@ -77,7 +77,7 @@ export default async function LeadsPage({
   console.log(selectedLead);
 
   return (
-    <main className={cn('grid flex-1 items-start space-x-4 md:space-x-8', selectedLead && 'lg:grid-cols-[2fr_1fr]')}>
+    <main className={cn('grid flex-1 items-start gap-4 md:gap-8 grid-cols-1 grid-rows-2', selectedLead && 'lg:grid-cols-[2fr_1fr] lg:grid-rows-1')}>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8'>
         <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4'>
           <Card className='sm:col-span-2' x-chunk='dashboard-05-chunk-0'>

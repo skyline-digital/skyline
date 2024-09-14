@@ -33,6 +33,7 @@ import { getFormattedDate } from "@/utils/utils";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/utils/cn";
+import LocalDate from "@/components/local-date";
 
 export default function LeadTable({
   leads,
@@ -139,7 +140,7 @@ function LeadsTable({ leads }: { leads: Tables<"leads">[] }) {
           <TableRow
             key={lead.id}
             onClick={(e) => {
-              router.push(`/dashboard/leads?q=${lead.id}`, { scroll: false });
+              router.replace(`/dashboard/leads?q=${lead.id}`, { scroll: false });
               e.stopPropagation();
             }}
             className={cn(
@@ -150,7 +151,7 @@ function LeadsTable({ leads }: { leads: Tables<"leads">[] }) {
             <TableCell>
               <div className="font-medium">{lead.name}</div>
               <div className="hidden text-sm text-muted-foreground md:inline">
-                {getFormattedDate(lead.created_at)}
+                <LocalDate timestamp={lead.created_at} />
               </div>
             </TableCell>
             <TableCell className="hidden sm:table-cell">{lead.email}</TableCell>
