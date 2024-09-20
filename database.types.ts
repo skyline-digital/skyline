@@ -9,35 +9,133 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      clients: {
+        Row: {
+          company_name: string
+          cover: string | null
+          created_at: string
+          email: string
+          id: string
+          logo: string | null
+          name: string
+          projects: string[] | null
+          slack: string | null
+          slug: string
+          user: string | null
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          cover?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          logo?: string | null
+          name: string
+          projects?: string[] | null
+          slack?: string | null
+          slug?: string
+          user?: string | null
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          cover?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          logo?: string | null
+          name?: string
+          projects?: string[] | null
+          slack?: string | null
+          slug?: string
+          user?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
+          company_name: string | null
           created_at: string
           email: string | null
           id: string
+          message: string | null
           name: string | null
           source: string | null
           status: Database["public"]["Enums"]["leadStatus"]
-          updated_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name?: string | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["leadStatus"]
+          updated_at?: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          name?: string | null
+          source?: string | null
+          status?: Database["public"]["Enums"]["leadStatus"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          reciever_id: string | null
+          sender_id: string | null
         }
         Insert: {
           created_at?: string
-          email?: string | null
           id?: string
-          name?: string | null
-          source?: string | null
-          status?: Database["public"]["Enums"]["leadStatus"]
-          updated_at?: string | null
+          message?: string | null
+          reciever_id?: string | null
+          sender_id?: string | null
         }
         Update: {
           created_at?: string
-          email?: string | null
           id?: string
-          name?: string | null
-          source?: string | null
-          status?: Database["public"]["Enums"]["leadStatus"]
-          updated_at?: string | null
+          message?: string | null
+          reciever_id?: string | null
+          sender_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "messages_reciever_id_fkey"
+            columns: ["reciever_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {

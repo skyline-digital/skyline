@@ -29,3 +29,15 @@ export function getFormattedDate(timestamp: string): string {
     ? `Today at ${date.format("h:mm A")}`
     : `${date.format("dddd")} at ${date.format("h:mm A")}`;
 }
+
+/**
+ * Converts a string to title case.
+ * @param {string} str - The string to convert to title case.
+ * @returns {string} The string in title case.
+ */
+export function getTitleCase(str: string): string {
+  return str.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  );
+}

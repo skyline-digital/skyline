@@ -11,7 +11,7 @@ export default async function AuthButton() {
   return user ? (
     <div className='flex items-center gap-4'>
       Hey, {user.email}!
-      <form action={signOutAction}>
+      <form action={await signOutAction()}>
         <Button type='submit' variant={"outline"}>
           Sign out
         </Button>

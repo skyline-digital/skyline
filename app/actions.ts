@@ -19,7 +19,7 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/api/auth/callback`,
     },
   });
 
@@ -63,7 +63,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/dashboard/reset-password`,
+    redirectTo: `${origin}/api/auth/callback?redirect_to=/dashboard/reset-password`,
   });
 
   if (error) {
@@ -127,4 +127,18 @@ export const signOutAction = async () => {
   const supabase = createClient();
   await supabase.auth.signOut();
   return redirect("/login");
+};
+
+export const sendSlackMessage = async (message: string) => {
+  const res = await fetch(process.env.SLACK_WEBHOOK_URL!, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: message,
+  });
+
+  if (!res.ok) {
+    console.error("Issue sending Slack message!");
+  }
 };

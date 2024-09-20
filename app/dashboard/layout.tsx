@@ -15,16 +15,13 @@ import { createClient } from "@/utils/supabase/server";
 import { Search } from "lucide-react";
 import Image from "next/image";
 import { signOutAction } from "../actions";
+import UserProfileIcon from "@/components/user-icon/user-profile-icon";
 
 export default async function DashboardFunction({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
-
-  const { data: profile } = await supabase.from("profiles").select().single();
-
   return (
     <div className='flex-1 h-full w-full flex flex-col gap-12'>
       <div className='flex w-full flex-col'>
@@ -41,41 +38,7 @@ export default async function DashboardFunction({
                 className='w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]'
               />
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant='outline'
-                  size='icon'
-                  className='overflow-hidden rounded-full'
-                >
-                  {profile?.avatar ? (
-                    <Image
-                      src={profile.avatar}
-                      width={36}
-                      height={36}
-                      alt='Avatar'
-                      className='overflow-hidden rounded-full'
-                    />
-                  ) : (
-                    <div className='w-9 h-9 bg-accent rounded-full flex items-center justify-center'>
-                      {profile?.name
-                        ?.split(" ")
-                        .map((name) => name[0].toUpperCase())}
-                    </div>
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <Button variant='ghost' onClick={signOutAction} asChild>
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
-                </Button>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <UserProfileIcon />
           </header>
           <div className='p-4 sm:px-6 sm:py-0'>{children}</div>
         </div>

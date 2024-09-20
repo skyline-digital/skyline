@@ -16,13 +16,12 @@ import {
 import { Progress } from "@/components/ui/progress";
 import Leads from "@/components/leads/leads";
 import LeadItem from "@/components/leads/lead-item";
+import Image from "next/image";
+import SlackIcon from "@/components/svg/slack-icon";
+import { Slack } from "lucide-react";
 import { Suspense } from "react";
 
-export default async function LeadsPage({
-  searchParams,
-}: {
-  searchParams: { q?: string };
-}) {
+export default async function ClientsPage() {
   const supabase = createClient();
 
   const {
@@ -33,41 +32,34 @@ export default async function LeadsPage({
     return redirect("/login");
   }
 
-  const { data: leads } = await supabase
-    .from("leads")
+  const { data: clients } = await supabase
+    .from("clients")
     .select()
     .order("created_at", { ascending: false });
 
-  const { data: selected } = await supabase
-    .from("leads")
-    .select()
-    .eq("id", searchParams.q ?? "")
-    .single();
+  if (!clients) {
+    return null;
+  }
 
   const metrics = {
-    week: getMetrics(leads, "week"),
-    month: getMetrics(leads, "month"),
+    week: getMetrics(clients, "week"),
+    month: getMetrics(clients, "month"),
   };
 
   return (
-    <main
-      className={cn(
-        "grid flex-1 items-start gap-4 md:gap-8 grid-cols-1",
-        selected && "lg:grid-cols-[2fr_1fr] lg:grid-rows-1"
-      )}
-    >
+    <main className='grid flex-1 items-start gap-4 md:gap-8 grid-cols-1'>
       <div className='grid auto-rows-max items-start gap-4 md:gap-8'>
         <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-4'>
           <Card className='sm:col-span-2' x-chunk='dashboard-05-chunk-0'>
             <CardHeader>
-              <CardTitle>Your Leads</CardTitle>
+              <CardTitle>Your Clients</CardTitle>
               <CardDescription className='max-w-lg text-balance leading-relaxed'>
-                Manage your leads and turn them into customers
+                Manage your clients and their projects
               </CardDescription>
             </CardHeader>
             <CardFooter>
               <Button asChild>
-                <Link href='/dashboard/leads/new'>Create New Lead</Link>
+                <Link href='/dashboard/client/new'>Convert Lead to Client</Link>
               </Button>
             </CardFooter>
           </Card>
@@ -110,13 +102,42 @@ export default async function LeadsPage({
             </CardFooter>
           </Card>
         </div>
-        <Leads leads={leads} />
-      </div>
-      {selected && (
-        <div className='sticky top-6'>
-          <LeadItem lead={selected} />
+        <div className='grid gap-4 sm:grid-cols-2 md:grid-cols-3'>
+          <Suspense>
+            {clients.map((client, index) => (
+              <Card key={index} className='overflow-hidden'>
+                <Image
+                  src={client.cover || ""}
+                  alt={client.company_name}
+                  width={1080}
+                  height={392}
+                />
+                <CardHeader>
+                  <CardTitle>{client.company_name}</CardTitle>
+                  <CardDescription className='max-w-lg text-balance leading-relaxed flex flex-col'>
+                    {client.name}
+                    <a className='w-fit' href={`mailto:${client.email}`}>
+                      {client.email}
+                    </a>
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className='space-x-1.5'>
+                  <Button variant='outline' asChild>
+                    <Link href={client?.slack || ""} target='_blank'>
+                      <Slack size={20} />
+                    </Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href={`/dashboard/clients/${client.slug}`}>
+                      View More
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </Suspense>
         </div>
-      )}
+      </div>
     </main>
   );
 }
