@@ -12,5 +12,7 @@ export default async function Dashboard() {
     return redirect("/login");
   }
 
-  return <div>Dashboard</div>;
+  const { data: profile } = await supabase.from("profiles").select().single();
+
+  return <div>Welcome, {profile?.name}</div>;
 }
