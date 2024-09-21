@@ -1,8 +1,15 @@
 import { createClient } from "@/utils/supabase/server";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { signOutAction } from "@/app/actions";
+import LogoutButton from "./logout-button";
 
 export default async function UserMenu() {
   const supabase = createClient();
@@ -38,9 +45,9 @@ export default async function UserMenu() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <Button variant="ghost" onClick={signOutAction} asChild>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </Button>
+        <DropdownMenuItem>
+          <LogoutButton />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
