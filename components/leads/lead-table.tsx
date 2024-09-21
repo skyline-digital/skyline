@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   DropdownMenu,
@@ -7,16 +7,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "../ui/button";
+} from '../ui/dropdown-menu'
+import { MoreHorizontal } from 'lucide-react'
+import { Button } from '../ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from '../ui/card'
 import {
   Table,
   TableBody,
@@ -24,12 +24,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { Tables } from "@/database.types";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { cn } from "@/utils/cn";
-import LocalDate from "@/components/local-date";
-import LeadStatusBadge from "./lead-status-badge";
+} from '../ui/table'
+import { Tables } from '@/database.types'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { cn } from '@/utils/cn'
+import LocalDate from '@/components/local-date'
+import LeadStatusBadge from './lead-status-badge'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -38,12 +38,12 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import { Input } from "../ui/input";
-import { Identifiable } from "@/utils/definitions";
-import { TabItemProps } from "./leads";
-import { getTitleCase } from "@/utils/utils";
-import React, { Suspense } from "react";
+} from '@tanstack/react-table'
+import { Input } from '../ui/input'
+import { Identifiable } from '@/utils/definitions'
+import { TabItemProps } from './leads'
+import { getTitleCase } from '@/utils/utils'
+import React, { Suspense } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -54,67 +54,67 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../ui/alert-dialog";
-import { deleteLead } from "@/utils/dal";
+} from '../ui/alert-dialog'
+import { deleteLead } from '@/utils/dal'
 
-export const columns: ColumnDef<Tables<"leads">>[] = [
+export const columns: ColumnDef<Tables<'leads'>>[] = [
   {
-    accessorKey: "name",
-    header: "Lead name",
+    accessorKey: 'name',
+    header: 'Lead name',
     cell: ({ row }) => {
-      const lead = row.original;
+      const lead = row.original
 
       return (
         <>
-          <div className='font-medium'>{lead.name}</div>
-          <div className='text-sm text-muted-foreground'>
+          <div className="font-medium">{lead.name}</div>
+          <div className="text-sm text-muted-foreground">
             <LocalDate timestamp={lead.created_at} />
           </div>
         </>
-      );
+      )
     },
   },
   {
-    accessorKey: "company_name",
-    header: "Company name",
+    accessorKey: 'company_name',
+    header: 'Company name',
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: 'email',
+    header: 'Email',
   },
   {
-    accessorKey: "source",
-    header: "Source",
+    accessorKey: 'source',
+    header: 'Source',
     cell: ({ row }) => {
-      const lead = row.original;
+      const lead = row.original
 
-      return getTitleCase(lead.source || "");
+      return getTitleCase(lead.source || '')
     },
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: 'status',
+    header: 'Status',
     cell: ({ row }) => {
-      const lead = row.original;
+      const lead = row.original
 
-      return <LeadStatusBadge status={lead.status} />;
+      return <LeadStatusBadge status={lead.status} />
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: ({ row }) => {
-      const lead = row.original;
+      const lead = row.original
 
       return (
         <AlertDialog>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant='ghost' className='h-8 w-8 p-0'>
-                <span className='sr-only'>Open menu</span>
-                <MoreHorizontal className='h-4 w-4' />
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align='end'>
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(lead.id)}
@@ -124,7 +124,7 @@ export const columns: ColumnDef<Tables<"leads">>[] = [
               <DropdownMenuSeparator />
               <DropdownMenuItem>View messages</DropdownMenuItem>
               <AlertDialogTrigger onClick={(e) => e.stopPropagation()} asChild>
-                <DropdownMenuItem className='text-red-500'>
+                <DropdownMenuItem className="text-red-500">
                   Trash
                 </DropdownMenuItem>
               </AlertDialogTrigger>
@@ -141,22 +141,22 @@ export const columns: ColumnDef<Tables<"leads">>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Button variant='destructive' type='submit' asChild>
+                <Button variant="destructive" type="submit" asChild>
                   <AlertDialogAction>Delete</AlertDialogAction>
                 </Button>
               </AlertDialogFooter>
             </form>
           </AlertDialogContent>
         </AlertDialog>
-      );
+      )
     },
   },
-];
+]
 
 interface LeadTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  tab: TabItemProps;
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  tab: TabItemProps
 }
 
 export function DataTable<TData extends Identifiable, TValue>({
@@ -165,13 +165,13 @@ export function DataTable<TData extends Identifiable, TValue>({
   tab,
 }: LeadTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [rowSelection, setRowSelection] = React.useState({});
+    [],
+  )
+  const [rowSelection, setRowSelection] = React.useState({})
 
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const table = useReactTable({
     data,
@@ -190,30 +190,31 @@ export function DataTable<TData extends Identifiable, TValue>({
     initialState: {
       columnVisibility: {
         id: false,
+        email: false,
       },
     },
-  });
+  })
 
   return (
     <Suspense>
-      <Card x-chunk='dashboard-05-chunk-3'>
-        <CardHeader className='px-7 flex flex-row justify-between'>
-          <div className='flex flex-col space-y-1.5'>
+      <Card x-chunk="dashboard-05-chunk-3">
+        <CardHeader className="px-7 flex flex-row justify-between">
+          <div className="flex flex-col space-y-1.5">
             <CardTitle>{tab.title}</CardTitle>
             <CardDescription>{tab.description}</CardDescription>
           </div>
           <Input
-            placeholder='Search emails...'
-            value={table.getColumn("email")?.getFilterValue() as string}
+            placeholder="Search emails..."
+            value={table.getColumn('email')?.getFilterValue() as string}
             onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
+              table.getColumn('email')?.setFilterValue(event.target.value)
             }
-            className='max-w-xs'
+            className="max-w-xs"
           />
         </CardHeader>
         <CardContent>
           <div>
-            <div className='rounded-md border'>
+            <div className="rounded-md border">
               <Table>
                 <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (
@@ -225,10 +226,10 @@ export function DataTable<TData extends Identifiable, TValue>({
                               ? null
                               : flexRender(
                                   header.column.columnDef.header,
-                                  header.getContext()
+                                  header.getContext(),
                                 )}
                           </TableHead>
-                        );
+                        )
                       })}
                     </TableRow>
                   ))}
@@ -240,17 +241,17 @@ export function DataTable<TData extends Identifiable, TValue>({
                         key={row.id}
                         data-state={
                           (row.getIsSelected() ||
-                            searchParams.get("q") === row.id) &&
-                          "selected"
+                            searchParams.get('q') === row.id) &&
+                          'selected'
                         }
                         onClick={() => {
-                          row.toggleSelected();
+                          row.toggleSelected()
                           if (row.getIsSelected()) {
-                            router.push(pathname, { scroll: false });
+                            router.push(pathname, { scroll: false })
                           } else {
                             router.push(`${pathname}?q=${row.id}`, {
                               scroll: false,
-                            });
+                            })
                           }
                         }}
                       >
@@ -258,7 +259,7 @@ export function DataTable<TData extends Identifiable, TValue>({
                           <TableCell key={cell.id}>
                             {flexRender(
                               cell.column.columnDef.cell,
-                              cell.getContext()
+                              cell.getContext(),
                             )}
                           </TableCell>
                         ))}
@@ -268,7 +269,7 @@ export function DataTable<TData extends Identifiable, TValue>({
                     <TableRow>
                       <TableCell
                         colSpan={columns.length}
-                        className='h-24 text-center'
+                        className="h-24 text-center"
                       >
                         No results.
                       </TableCell>
@@ -279,21 +280,21 @@ export function DataTable<TData extends Identifiable, TValue>({
             </div>
             <div
               className={cn(
-                "flex items-center justify-end space-x-2 py-4",
-                table.getPageCount() < 2 && "hidden"
+                'flex items-center justify-end space-x-2 py-4',
+                table.getPageCount() < 2 && 'hidden',
               )}
             >
               <Button
-                variant='outline'
-                size='sm'
+                variant="outline"
+                size="sm"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
                 Previous
               </Button>
               <Button
-                variant='outline'
-                size='sm'
+                variant="outline"
+                size="sm"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
@@ -304,5 +305,5 @@ export function DataTable<TData extends Identifiable, TValue>({
         </CardContent>
       </Card>
     </Suspense>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import moment from "moment";
-import { redirect } from "next/navigation";
+import moment from 'moment'
+import { redirect } from 'next/navigation'
 
 /**
  * Redirects to a specified path with an encoded message as a query parameter.
@@ -9,11 +9,11 @@ import { redirect } from "next/navigation";
  * @returns {never} This function doesn't return as it triggers a redirect.
  */
 export function encodedRedirect(
-  type: "error" | "success",
+  type: 'error' | 'success',
   path: string,
-  message: string
+  message: string,
 ) {
-  return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+  return redirect(`${path}?${type}=${encodeURIComponent(message)}`)
 }
 
 /**
@@ -22,12 +22,12 @@ export function encodedRedirect(
  * @returns {string} The formatted date string.
  */
 export function getFormattedDate(timestamp: string): string {
-  const date = moment(timestamp);
-  const isToday = date.isSame(moment(), "day");
+  const date = moment(timestamp)
+  const isToday = date.isSame(moment(), 'day')
 
   return isToday
-    ? `Today at ${date.format("h:mm A")}`
-    : `${date.format("dddd")} at ${date.format("h:mm A")}`;
+    ? `Today at ${date.format('h:mm A')}`
+    : `${date.format('dddd')} at ${date.format('h:mm A')}`
 }
 
 /**
@@ -38,6 +38,6 @@ export function getFormattedDate(timestamp: string): string {
 export function getTitleCase(str: string): string {
   return str.replace(
     /\w\S*/g,
-    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-  );
+    (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase(),
+  )
 }

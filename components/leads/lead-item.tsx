@@ -1,14 +1,13 @@
-"use client";
+'use client'
 
-import React, { Suspense } from "react";
-import { Tables } from "@/database.types";
-import { getFormattedDate } from "@/utils/utils";
+import React from 'react'
+import { Tables } from '@/database.types'
 import {
   ChevronLeft,
   ChevronRight,
   CreditCard,
   MoreVertical,
-} from "lucide-react";
+} from 'lucide-react'
 
 import {
   Card,
@@ -17,14 +16,14 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "@/components/ui/card";
+} from '@/components/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -35,24 +34,24 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-} from "@/components/ui/pagination";
-import { Separator } from "@/components/ui/separator";
-import LocalDate from "../local-date";
-import { deleteLead } from "@/utils/dal";
-import LeadStatusBadge from "./lead-status-badge";
+} from '@/components/ui/pagination'
+import { Separator } from '@/components/ui/separator'
+import LocalDate from '../local-date'
+import { deleteLead } from '@/utils/dal'
+import LeadStatusBadge from './lead-status-badge'
 
-export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
+export default function LeadItem({ lead }: { lead: Tables<'leads'> }) {
   return (
-    <Card className='overflow-hidden' x-chunk='dashboard-05-chunk-4'>
-      <CardHeader className='flex flex-row items-start bg-muted/50'>
-        <div className='grid gap-0.5'>
-          <CardTitle className='group flex items-center gap-2 text-lg'>
+    <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
+      <CardHeader className="flex flex-row items-start bg-muted/50">
+        <div className="grid gap-0.5">
+          <CardTitle className="group flex items-center gap-2 text-lg">
             {lead.name}
             {/* <Button
                     size='icon'
@@ -67,21 +66,21 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
             Created: <LocalDate timestamp={lead.created_at} />
           </CardDescription>
         </div>
-        <div className='ml-auto flex items-center gap-1'>
+        <div className="ml-auto flex items-center gap-1">
           <AlertDialog>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button size='icon' variant='outline' className='h-8 w-8'>
-                  <MoreVertical className='h-3.5 w-3.5' />
-                  <span className='sr-only'>More</span>
+                <Button size="icon" variant="outline" className="h-8 w-8">
+                  <MoreVertical className="h-3.5 w-3.5" />
+                  <span className="sr-only">More</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align='end'>
+              <DropdownMenuContent align="end">
                 <DropdownMenuItem>Edit</DropdownMenuItem>
                 <DropdownMenuItem>Export</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className='text-red-500'>
+                  <DropdownMenuItem className="text-red-500">
                     Trash
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
@@ -98,7 +97,7 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button variant='destructive' type='submit' asChild>
+                  <Button variant="destructive" type="submit" asChild>
                     <AlertDialogAction>Delete</AlertDialogAction>
                   </Button>
                 </AlertDialogFooter>
@@ -107,7 +106,7 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
           </AlertDialog>
         </div>
       </CardHeader>
-      <CardContent className='p-6 text-sm'>
+      <CardContent className="p-6 text-sm">
         {/* <div className='grid gap-3'>
                 <div className='font-semibold'>Order Details</div>
                 <ul className='grid gap-3'>
@@ -162,42 +161,42 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
                 </div>
               </div>
               <Separator className='my-4' /> */}
-        <div className='grid gap-3'>
-          <div className='font-semibold'>Lead Information</div>
-          <dl className='grid gap-3'>
-            <div className='flex items-center justify-between'>
-              <dt className='text-muted-foreground'>Lead Name</dt>
+        <div className="grid gap-3">
+          <div className="font-semibold">Lead Information</div>
+          <dl className="grid gap-3">
+            <div className="flex items-center justify-between">
+              <dt className="text-muted-foreground">Lead Name</dt>
               <dd>{lead.name}</dd>
             </div>
-            <div className='flex items-center justify-between'>
-              <dt className='text-muted-foreground'>Email</dt>
+            <div className="flex items-center justify-between">
+              <dt className="text-muted-foreground">Email</dt>
               <dd>
-                <a href='mailto:'>{lead.email}</a>
+                <a href="mailto:">{lead.email}</a>
               </dd>
             </div>
-            <div className='flex items-center justify-between'>
-              <dt className='text-muted-foreground'>Source</dt>
+            <div className="flex items-center justify-between">
+              <dt className="text-muted-foreground">Source</dt>
               <dd>
-                <a href='mailto:'>{lead.source}</a>
+                <a href="mailto:">{lead.source}</a>
               </dd>
             </div>
-            <div className='flex items-center justify-between'>
-              <dt className='text-muted-foreground'>Status</dt>
+            <div className="flex items-center justify-between">
+              <dt className="text-muted-foreground">Status</dt>
               <dd>
-                <a href='mailto:'>
+                <a href="mailto:">
                   <LeadStatusBadge status={lead.status} />
                 </a>
               </dd>
             </div>
           </dl>
         </div>
-        <Separator className='my-4' />
-        <div className='grid gap-3'>
-          <div className='font-semibold'>Payment Information</div>
-          <dl className='grid gap-3'>
-            <div className='flex items-center justify-between'>
-              <dt className='flex items-center gap-1 text-muted-foreground'>
-                <CreditCard className='h-4 w-4' />
+        <Separator className="my-4" />
+        <div className="grid gap-3">
+          <div className="font-semibold">Payment Information</div>
+          <dl className="grid gap-3">
+            <div className="flex items-center justify-between">
+              <dt className="flex items-center gap-1 text-muted-foreground">
+                <CreditCard className="h-4 w-4" />
                 Visa
               </dt>
               <dd>**** **** **** 4532</dd>
@@ -205,27 +204,27 @@ export default function LeadItem({ lead }: { lead: Tables<"leads"> }) {
           </dl>
         </div>
       </CardContent>
-      <CardFooter className='flex flex-row items-center border-t bg-muted/50 px-6 py-3'>
-        <div className='text-xs text-muted-foreground'>
-          Updated <time dateTime='2023-11-23'>November 23, 2023</time>
+      <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+        <div className="text-xs text-muted-foreground">
+          Updated <time dateTime="2023-11-23">November 23, 2023</time>
         </div>
-        <Pagination className='ml-auto mr-0 w-auto'>
+        <Pagination className="ml-auto mr-0 w-auto">
           <PaginationContent>
             <PaginationItem>
-              <Button size='icon' variant='outline' className='h-6 w-6'>
-                <ChevronLeft className='h-3.5 w-3.5' />
-                <span className='sr-only'>Previous Order</span>
+              <Button size="icon" variant="outline" className="h-6 w-6">
+                <ChevronLeft className="h-3.5 w-3.5" />
+                <span className="sr-only">Previous Order</span>
               </Button>
             </PaginationItem>
             <PaginationItem>
-              <Button size='icon' variant='outline' className='h-6 w-6'>
-                <ChevronRight className='h-3.5 w-3.5' />
-                <span className='sr-only'>Next Order</span>
+              <Button size="icon" variant="outline" className="h-6 w-6">
+                <ChevronRight className="h-3.5 w-3.5" />
+                <span className="sr-only">Next Order</span>
               </Button>
             </PaginationItem>
           </PaginationContent>
         </Pagination>
       </CardFooter>
     </Card>
-  );
+  )
 }

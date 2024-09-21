@@ -1,15 +1,15 @@
-import Breadcrumbs from "@/components/breadcrumbs";
-import DesktopNav from "@/components/nav/desktop-nav";
-import MobileNav from "@/components/nav/mobile-nav";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
-import UserMenu from "@/components/nav/user-menu";
-import { Suspense } from "react";
+import Breadcrumbs from '@/components/breadcrumbs'
+import DesktopNav from '@/components/nav/desktop-nav'
+import MobileNav from '@/components/nav/mobile-nav'
+import { Input } from '@/components/ui/input'
+import { Search } from 'lucide-react'
+import UserMenu from '@/components/nav/user-menu'
+import { Suspense } from 'react'
 
 export default async function DashboardFunction({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <div className="flex-1 h-full w-full flex flex-col gap-12">
@@ -35,5 +35,5 @@ export default async function DashboardFunction({
         </div>
       </div>
     </div>
-  );
+  )
 }

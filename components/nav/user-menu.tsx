@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from '@/utils/supabase/server'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,15 +6,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import LogoutButton from "./logout-button";
+} from '../ui/dropdown-menu'
+import { Button } from '../ui/button'
+import Image from 'next/image'
+import LogoutButton from './logout-button'
 
 export default async function UserMenu() {
-  const supabase = createClient();
+  const supabase = createClient()
 
-  const { data: profile } = await supabase.from("profiles").select().single();
+  const { data: profile } = await supabase.from('profiles').select().single()
 
   return (
     <DropdownMenu>
@@ -34,7 +34,7 @@ export default async function UserMenu() {
             />
           ) : (
             <div className="w-9 h-9 bg-accent rounded-full flex items-center justify-center">
-              {profile?.name?.split(" ").map((name) => name[0].toUpperCase())}
+              {profile?.name?.split(' ').map((name) => name[0].toUpperCase())}
             </div>
           )}
         </Button>
@@ -50,5 +50,5 @@ export default async function UserMenu() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

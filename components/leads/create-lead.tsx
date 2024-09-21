@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -19,62 +19,62 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { createNewLead } from "@/app/dashboard/leads/new/actions";
+} from '@/components/ui/select'
+import { createNewLead } from '@/app/(dashboard)/leads/new/actions'
 
 export const createLeadSchema = z.object({
   name: z.string().min(2, {
-    message: "Lead name must be at least 2 characters.",
+    message: 'Lead name must be at least 2 characters.',
   }),
   company_name: z.string().optional(),
   email: z.string().email({
-    message: "Please enter a valid email address.",
+    message: 'Please enter a valid email address.',
   }),
   source: z.string({
-    required_error: "Please select a lead source.",
+    required_error: 'Please select a lead source.',
   }),
-});
+})
 
 export default function CreateLead() {
   const form = useForm<z.infer<typeof createLeadSchema>>({
     resolver: zodResolver(createLeadSchema),
     defaultValues: {
-      name: "",
-      company_name: "",
-      email: "",
-      source: "",
+      name: '',
+      company_name: '',
+      email: '',
+      source: '',
     },
-  });
+  })
 
-  const { isSubmitting } = form.formState;
+  const { isSubmitting } = form.formState
 
   async function onSubmit(values: z.infer<typeof createLeadSchema>) {
-    await createNewLead(values);
+    await createNewLead(values)
   }
 
   return (
-    <Card className='w-full max-w-md mx-auto mt-8'>
+    <Card className="w-full max-w-md mx-auto mt-8">
       <CardHeader>
-        <CardTitle className='text-2xl font-bold'>Create New Lead</CardTitle>
+        <CardTitle className="text-2xl font-bold">Create New Lead</CardTitle>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-          <CardContent className='space-y-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <CardContent className="space-y-4">
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Lead name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Enter lead name' {...field} />
+                    <Input placeholder="Enter lead name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,12 +82,12 @@ export default function CreateLead() {
             />
             <FormField
               control={form.control}
-              name='company_name'
+              name="company_name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Company name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Enter company name' {...field} />
+                    <Input placeholder="Enter company name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,14 +95,14 @@ export default function CreateLead() {
             />
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      type='email'
-                      placeholder='Enter email address'
+                      type="email"
+                      placeholder="Enter email address"
                       {...field}
                     />
                   </FormControl>
@@ -112,7 +112,7 @@ export default function CreateLead() {
             />
             <FormField
               control={form.control}
-              name='source'
+              name="source"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Source</FormLabel>
@@ -122,16 +122,16 @@ export default function CreateLead() {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Select lead source' />
+                        <SelectValue placeholder="Select lead source" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='website'>Website</SelectItem>
-                      <SelectItem value='referral'>Referral</SelectItem>
-                      <SelectItem value='advertisement'>
+                      <SelectItem value="website">Website</SelectItem>
+                      <SelectItem value="referral">Referral</SelectItem>
+                      <SelectItem value="advertisement">
                         Advertisement
                       </SelectItem>
-                      <SelectItem value='other'>Other</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -140,12 +140,12 @@ export default function CreateLead() {
             />
           </CardContent>
           <CardFooter>
-            <Button type='submit' className='w-full' disabled={isSubmitting}>
-              {isSubmitting ? "Creating..." : "Create Lead"}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Creating...' : 'Create Lead'}
             </Button>
           </CardFooter>
         </form>
       </Form>
     </Card>
-  );
+  )
 }
