@@ -1,35 +1,11 @@
 'use client'
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
-import { MoreHorizontal } from 'lucide-react'
-import { Button } from '../ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '../ui/table'
-import { Tables } from '@/database.types'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { cn } from '@/utils/cn'
 import LocalDate from '@/components/local-date'
-import LeadStatusBadge from './lead-status-badge'
+import { Tables } from '@/database.types'
+import { cn } from '@/utils/cn'
+import { deleteLead } from '@/utils/dal'
+import { Identifiable } from '@/utils/definitions'
+import { getTitleCase } from '@/utils/utils'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -39,10 +15,8 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Input } from '../ui/input'
-import { Identifiable } from '@/utils/definitions'
-import { TabItemProps } from './leads'
-import { getTitleCase } from '@/utils/utils'
+import { MoreHorizontal } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { Suspense } from 'react'
 import {
   AlertDialog,
@@ -55,7 +29,33 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '../ui/alert-dialog'
-import { deleteLead } from '@/utils/dal'
+import { Button } from '../ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '../ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
+import { Input } from '../ui/input'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table'
+import LeadStatusBadge from './lead-status-badge'
+import { TabItemProps } from './leads'
 
 export const columns: ColumnDef<Tables<'leads'>>[] = [
   {
@@ -198,7 +198,7 @@ export function DataTable<TData extends Identifiable, TValue>({
   return (
     <Suspense>
       <Card x-chunk="dashboard-05-chunk-3">
-        <CardHeader className="px-7 flex flex-row justify-between">
+        <CardHeader className="flex flex-row justify-between px-7">
           <div className="flex flex-col space-y-1.5">
             <CardTitle>{tab.title}</CardTitle>
             <CardDescription>{tab.description}</CardDescription>
@@ -221,7 +221,7 @@ export function DataTable<TData extends Identifiable, TValue>({
                     <TableRow key={headerGroup.id}>
                       {headerGroup.headers.map((header) => {
                         return (
-                          <TableHead key={header.id}>
+                          <TableHead key={header.id} className="text-nowrap">
                             {header.isPlaceholder
                               ? null
                               : flexRender(
@@ -239,6 +239,7 @@ export function DataTable<TData extends Identifiable, TValue>({
                     table.getRowModel().rows.map((row) => (
                       <TableRow
                         key={row.id}
+                        className="cursor-pointer"
                         data-state={
                           (row.getIsSelected() ||
                             searchParams.get('q') === row.id) &&

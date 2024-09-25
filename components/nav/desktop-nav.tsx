@@ -2,14 +2,11 @@ import {
   Flame,
   Home,
   LineChart,
-  Package,
   Package2,
   Settings,
-  ShoppingCart,
   Users2,
 } from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip'
 import { NavItem } from './nav-item'
 

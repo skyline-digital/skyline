@@ -1,10 +1,8 @@
-import HeaderAuth from '@/components/header-auth'
 import { ThemeSwitcher } from '@/components/theme-switcher'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
-import Link from 'next/link'
 import './globals.css'
-import { TooltipProvider } from '@/components/ui/tooltip'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -31,11 +29,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <main className="min-h-screen flex flex-col items-center">
-              <div className="flex-1 w-full flex flex-col gap-20 items-center">
+            <div className="flex min-h-screen flex-col items-center">
+              <div className="flex w-full flex-1 flex-col items-center justify-between gap-20">
                 {children}
 
-                <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-4">
+                <footer className="mx-auto flex w-full items-center justify-center gap-8 border-t py-4 text-center text-xs">
                   <p>
                     Powered by{' '}
                     <a
@@ -50,7 +48,7 @@ export default function RootLayout({
                   <ThemeSwitcher />
                 </footer>
               </div>
-            </main>
+            </div>
           </TooltipProvider>
         </ThemeProvider>
       </body>

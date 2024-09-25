@@ -1,6 +1,5 @@
-import React from 'react'
-import { Badge } from '../ui/badge'
 import { cn } from '@/utils/cn'
+import { Badge } from '../ui/badge'
 
 export default function LeadStatusBadge({ status }: { status: string }) {
   if (!status) {
@@ -22,7 +21,9 @@ export default function LeadStatusBadge({ status }: { status: string }) {
   }
 
   return (
-    <Badge className={cn('text-xs', statusColor, `hover:${statusColor}`)}>
+    <Badge
+      className={cn('text-nowrap text-xs', statusColor, `hover:${statusColor}`)}
+    >
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </Badge>
   )

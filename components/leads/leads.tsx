@@ -1,5 +1,6 @@
 import { Tables } from '@/database.types'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
+import { File, ListFilter } from 'lucide-react'
+import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -8,8 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { Button } from '../ui/button'
-import { File, ListFilter } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import { columns, DataTable } from './lead-table'
 
 export interface TabItemProps {
@@ -42,7 +42,8 @@ export default function Leads({ leads }: { leads: Tables<'leads'>[] | null }) {
       leads?.filter(
         (lead) =>
           lead.status === status ||
-          (status === 'open' && lead.status === 'new'),
+          (status === 'open' &&
+            (lead.status === 'new' || lead.status === 'in progress'))
       ) || []
     )
   }

@@ -1,29 +1,14 @@
 'use client'
 
-import React from 'react'
-import { Tables } from '@/database.types'
+import { Database, Tables } from '@/database.types'
 import {
   ChevronLeft,
   ChevronRight,
+  Copy,
   CreditCard,
   MoreVertical,
 } from 'lucide-react'
 
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,13 +22,35 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
   Pagination,
   PaginationContent,
   PaginationItem,
 } from '@/components/ui/pagination'
 import { Separator } from '@/components/ui/separator'
+import { deleteLead, updateLeadStatus } from '@/utils/dal'
 import LocalDate from '../local-date'
-import { deleteLead } from '@/utils/dal'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
 import LeadStatusBadge from './lead-status-badge'
 
 export default function LeadItem({ lead }: { lead: Tables<'leads'> }) {
@@ -53,14 +60,14 @@ export default function LeadItem({ lead }: { lead: Tables<'leads'> }) {
         <div className="grid gap-0.5">
           <CardTitle className="group flex items-center gap-2 text-lg">
             {lead.name}
-            {/* <Button
-                    size='icon'
-                    variant='outline'
-                    className='h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100'
-                  >
-                    <Copy className='h-3 w-3' />
-                    <span className='sr-only'>Copy Order ID</span>
-                  </Button> */}
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
+            >
+              <Copy className="h-3 w-3" />
+              <span className="sr-only">Copy lead ID</span>
+            </Button>
           </CardTitle>
           <CardDescription>
             Created: <LocalDate timestamp={lead.created_at} />
@@ -170,22 +177,36 @@ export default function LeadItem({ lead }: { lead: Tables<'leads'> }) {
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-muted-foreground">Email</dt>
-              <dd>
-                <a href="mailto:">{lead.email}</a>
-              </dd>
+              <dd>{lead.email}</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-muted-foreground">Source</dt>
-              <dd>
-                <a href="mailto:">{lead.source}</a>
-              </dd>
+              <dd>{lead.source}</dd>
             </div>
             <div className="flex items-center justify-between">
               <dt className="text-muted-foreground">Status</dt>
               <dd>
-                <a href="mailto:">
-                  <LeadStatusBadge status={lead.status} />
-                </a>
+                <Select
+                  value={lead.status}
+                  onValueChange={(
+                    newStatus: Database['public']['Enums']['leadStatus'],
+                  ) => updateLeadStatus(lead.id, newStatus)}
+                >
+                  <SelectTrigger className="mr-2 border-none">
+                    <SelectValue aria-label={lead.status}>
+                      <LeadStatusBadge status={lead.status} />
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {['new', 'open', 'in progress', 'closed', 'lost'].map(
+                      (status) => (
+                        <SelectItem value={status}>
+                          <LeadStatusBadge status={status} />
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectContent>
+                </Select>
               </dd>
             </div>
           </dl>

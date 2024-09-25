@@ -1,6 +1,3 @@
-import React from 'react'
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
-import { Button } from '../ui/button'
 import {
   Flame,
   Home,
@@ -10,6 +7,8 @@ import {
   Users2,
 } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '../ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 
 export default function MobileNav() {
   return (
