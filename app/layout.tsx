@@ -3,6 +3,8 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import { GeistSans } from 'geist/font/sans'
 import { ThemeProvider } from 'next-themes'
 import './globals.css'
+import { ToastProvider } from '@/components/ui/toast'
+import { Toaster } from '@/components/ui/toaster'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -51,6 +53,7 @@ export default function RootLayout({
             </div>
           </TooltipProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )
